@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASIR Automation Masterclass | PowerShell</title>
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- VARIABLES & RESET --- */
+        :root {
+            --bg-dark: #0d1117;       /* GitHub Dark Background */
+            --bg-card: #161b22;       /* Lighter Section Background */
+            --border: #30363d;        /* Subtle Border */
+            --accent-cyan: #39ace7;   /* PowerShell Cyan */
+            --accent-green: #00ff00;  /* Terminal Green */
+            --accent-red: #ff5555;    /* Error Red */
+            --text-main: #c9d1d9;     /* Soft White */
+            --text-muted: #8b949e;    /* Gray Text */
+            --font-ui: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --font-code: 'Consolas', 'Courier New', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: var(--font-ui);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; }
+
+        /* --- NAVBAR (Sticky Header) --- */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(13, 17, 23, 0.85);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+        }
+        .logo span { color: var(--accent-cyan); }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-cyan);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 1rem;
+            background: radial-gradient(circle at top, #1f293a 0%, var(--bg-dark) 70%);
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            max-width: 900px;
+        }
+
+        .highlight-sysadmin {
+            color: var(--accent-cyan);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .hero h2 {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            font-weight: 400;
+            margin-bottom: 3rem;
+        }
+
+        .cta-btn {
+            background: transparent;
+            border: 2px solid var(--accent-cyan);
+            color: var(--accent-cyan);
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(57, 172, 231, 0.1);
+        }
+
+        .cta-btn:hover {
+            background: var(--accent-cyan);
+            color: var(--bg-dark);
+            box-shadow: 0 0 20px rgba(57, 172, 231, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* --- SECTION: EL ESCENARIO --- */
+        .scenario {
+            background-color: var(--bg-card);
+            padding: 5rem 10%;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .scenario-context {
+            font-family: var(--font-code);
+            color: var(--accent-cyan);
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .mission-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            padding: 3rem;
+            border-radius: 8px;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .mission-card::before {
+            content: "MISIÓN CRÍTICA";
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-card);
+            padding: 0 1rem;
+            color: var(--accent-red);
+            font-weight: bold;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+        }
+
+        .mission-card h3 {
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        /* --- SECTION: COMPARATIVA --- */
+        .comparison {
+            padding: 5rem 10%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .option-card {
+            background: var(--bg-card);
+            padding: 2.5rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid var(--border);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .option-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .option-a:hover { border-color: var(--accent-red); }
+        .option-b:hover { border-color: var(--accent-green); }
+
+        .icon-box {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .option-a .icon-box { color: var(--accent-red); }
+        .option-b .icon-box { color: var(--accent-green); }
+
+        .option-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+
+        .option-desc {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .result {
+            font-weight: 800;
+            letter-spacing: 1px;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .res-fired { background: rgba(255, 85, 85, 0.1); color: var(--accent-red); }
+        .res-promoted { background: rgba(0, 255, 0, 0.1); color: var(--accent-green); }
+
+        /* --- SECTION: EL CÓDIGO (TERMINAL) --- */
+        .script-section {
+            padding: 5rem 10%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .terminal-window {
+            width: 100%;
+            max-width: 800px;
+            background: #012456; /* Classic PowerShell Blue/Black Mix */
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            overflow: hidden;
+            font-family: var(--font-code);
+            border: 1px solid #333;
+        }
+
+        .terminal-header {
+            background: #2d2d2d;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .window-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .red { background: #ff5f56; }
+        .yellow { background: #ffbd2e; }
+        .green { background: #27c93f; }
+
+        .terminal-title {
+            color: #ccc;
+            font-size: 0.8rem;
+        }
+
+        .copy-btn {
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: background 0.2s;
+        }
+
+        .copy-btn:hover { background: rgba(255,255,255,0.2); }
+
+        .code-body {
+            padding: 20px;
+            color: #f0f0f0;
+            font-size: 0.95rem;
+            overflow-x: auto;
+            position: relative;
+        }
+        
+        /* Syntax Highlighting Simulado */
+        .ps-comment { color: #6a9955; }
+        .ps-cmdlet { color: #dcdcaa; } /* Yellowish */
+        .ps-string { color: #ce9178; }
+        .ps-pipe { color: var(--accent-cyan); font-weight: bold; }
+        .ps-var { color: #9cdcfe; }
+
+        /* --- SECTION: GOD MODE --- */
+        .remote-mode {
+            padding: 5rem 1rem;
+            text-align: center;
+            background: linear-gradient(180deg, var(--bg-dark) 0%, #0d161d 100%);
+        }
+
+        .remote-mode h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .command-block {
+            background: #000;
+            border: 1px solid var(--accent-green);
+            color: var(--accent-green);
+            padding: 1.5rem;
+            font-family: var(--font-code);
+            border-radius: 6px;
+            display: inline-block;
+            font-size: 1.1rem;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background: var(--bg-card);
+            border-top: 1px solid var(--border);
+            padding: 4rem 10% 2rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-col h4 {
+            color: #fff;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 0.5rem;
+            color: var(--text-muted);
+        }
+        
+        .footer-col ul li a:hover {
+            color: var(--accent-cyan);
+            text-decoration: underline;
+        }
+
+        .copyright {
+            text-align: center;
+            color: #484f58;
+            font-size: 0.85rem;
+            padding-top: 2rem;
+            border-top: 1px solid #30363d;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .nav-links { display: none; } /* Ocultar links en móvil para simplificar demo */
+            .mission-card h3 { font-size: 1.5rem; }
+            .terminal-window { font-size: 0.8rem; }
+            .command-block { font-size: 0.9rem; padding: 1rem; width: 100%; word-break: break-all; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="logo">ASIR / <span>AUTOMATION</span></div>
+        <div class="nav-links">
+            <a href="#hero">Inicio</a>
+            <a href="#reto">El Reto</a>
+            <a href="#script">Script</a>
+            <a href="#remote">Remote Mode</a>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero" id="hero">
+        <h1>Deja de ser Usuario.<br>Conviértete en <span class="highlight-sysadmin">SysAdmin</span>.</h1>
+        <h2>Domina la automatización con PowerShell y recupera tu tiempo.</h2>
+        <a href="#script" class="cta-btn">Ver la Solución 👇</a>
+    </section>
+
+    <!-- EL ESCENARIO -->
+    <section class="scenario" id="reto">
+        <span class="scenario-context">/// Lunes, 8:00 AM ///</span>
+        <div class="mission-card">
+            <p style="color: var(--text-muted); margin-bottom: 1rem;">El Jefe de Sistemas entra por la puerta con una carpeta.</p>
+            <h3>"¿Cómo sacas el inventario de hardware de 100 PCs antes de las 12:00?"</h3>
+        </div>
+    </section>
+
+    <!-- LAS DOS OPCIONES -->
+    <section class="comparison">
+        <!-- OPCIÓN A -->
+        <div class="option-card option-a">
+            <div class="icon-box"><i class="fas fa-usb"></i></div>
+            <div class="option-title">Opción A: El Becario</div>
+            <p class="option-desc">Va PC por PC con un USB ejecutando dxdiag y apuntando en un Excel. Tarda 1 semana. Errores humanos garantizados.</p>
+            <div class="result res-fired">DESPEDIDO</div>
+        </div>
+
+        <!-- OPCIÓN B -->
+        <div class="option-card option-b">
+            <div class="icon-box"><i class="fas fa-terminal"></i></div>
+            <div class="option-title">Opción B: El Senior</div>
+            <p class="option-desc">Se sienta, abre PowerShell ISE. Escribe un script de 10 líneas. Ejecuta. Se toma un café.</p>
+            <div class="result res-promoted">ASCENDIDO</div>
+        </div>
+    </section>
+
+    <!-- EL CÓDIGO -->
+    <section class="script-section" id="script">
+        <div class="terminal-window">
+            <div class="terminal-header">
+                <div class="window-controls">
+                    <div class="dot red"></div>
+                    <div class="dot yellow"></div>
+                    <div class="dot green"></div>
+                </div>
+                <div class="terminal-title">Administrator: Windows PowerShell</div>
+                <button class="copy-btn" onclick="copyCode()"><i class="fas fa-copy"></i> Copiar Script</button>
+            </div>
+            <div class="code-body">
+<pre><code id="ps-code">
+<span class="ps-comment"># 1. Seguridad: Mover al escritorio</span>
+<span class="ps-cmdlet">cd</span> <span class="ps-var">$HOME</span>\Desktop
+
+<span class="ps-comment"># 2. Técnica del Sándwich (Agrupar datos)</span>
+<span class="ps-var">$(</span>
+    <span class="ps-cmdlet">Write-Host</span> <span class="ps-string">"--- CPU ---"</span>
+    <span class="ps-cmdlet">Get-CimInstance</span> Win32_Processor <span class="ps-pipe">|</span> <span class="ps-cmdlet">Select-Object</span> Name, NumberOfCores
+
+    <span class="ps-cmdlet">Write-Host</span> <span class="ps-string">"--- RAM ---"</span>
+    <span class="ps-cmdlet">Get-CimInstance</span> Win32_PhysicalMemory <span class="ps-pipe">|</span> <span class="ps-cmdlet">Select-Object</span> Capacity, Speed
+
+    <span class="ps-cmdlet">Write-Host</span> <span class="ps-string">"--- DISCO ---"</span>
+    <span class="ps-cmdlet">Get-PhysicalDisk</span> <span class="ps-pipe">|</span> <span class="ps-cmdlet">Select-Object</span> FriendlyName, MediaType, Size
+
+<span class="ps-var">)</span> <span class="ps-pipe">|</span> <span class="ps-cmdlet">Out-File</span> <span class="ps-string">"INFORME_JEFE.txt"</span>
+
+<span class="ps-comment"># 3. Resultado</span>
+<span class="ps-cmdlet">notepad</span> INFORME_JEFE.txt
+</code></pre>
+            </div>
+        </div>
+    </section>
+
+    <!-- MODO DIOS -->
+    <section class="remote-mode" id="remote">
+        <h2>¿Y para los 100 PCs?</h2>
+        <p style="color: var(--text-muted); margin-bottom: 2rem;">No tienes que levantarte de la silla. Despliega el poder de Remote Management.</p>
+        <div class="command-block">
+            Invoke-Command -ComputerName (Get-Content lista_pcs.txt) -FilePath "Script.ps1"
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>ASIR Masterclass</h4>
+                <ul>
+                    <li><a href="#">Sobre el Curso</a></li>
+                    <li><a href="#">Mentores</a></li>
+                    <li><a href="#">Certificaciones</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Recursos</h4>
+                <ul>
+                    <li><a href="#"><i class="fab fa-github"></i> Repositorio Git</a></li>
+                    <li><a href="#">Cheatsheet PDF</a></li>
+                    <li><a href="#">Comunidad Discord</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contacto</h4>
+                <ul>
+                    <li><a href="#">soporte@asir-automation.com</a></li>
+                    <li><a href="#">Madrid, España</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2024 ASIR Automation Academy. Todos los derechos reservados. Code is Law.</p>
+        </div>
+    </footer>
+
+    <!-- SCRIPT FUNCIONALIDAD -->
+    <script>
+        function copyCode() {
+            // El texto crudo para copiar (sin tags HTML)
+            const rawCode = `# 1. Seguridad: Mover al escritorio
+cd $HOME\\Desktop
+
+# 2. Técnica del Sándwich (Agrupar datos)
+$(
+    Write-Host "--- CPU ---"
+    Get-CimInstance Win32_Processor | Select-Object Name, NumberOfCores
+
+    Write-Host "--- RAM ---"
+    Get-CimInstance Win32_PhysicalMemory | Select-Object Capacity, Speed
+
+    Write-Host "--- DISCO ---"
+    Get-PhysicalDisk | Select-Object FriendlyName, MediaType, Size
+
+) | Out-File "INFORME_JEFE.txt"
+
+# 3. Resultado
+notepad INFORME_JEFE.txt`;
+
+            navigator.clipboard.writeText(rawCode).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                const originalText = btn.innerHTML;
+                
+                // Feedback visual
+                btn.innerHTML = '<i class="fas fa-check"></i> Copiado';
+                btn.style.background = "rgba(39, 201, 63, 0.3)";
+                btn.style.color = "#27c93f";
+
+                setTimeout(() => {
+                    btn.innerHTML = '<i class="fas fa-copy"></i> Copiar Script';
+                    btn.style.background = "";
+                    btn.style.color = "";
+                }, 2000);
+            }).catch(err => {
+                console.error('Error al copiar: ', err);
+            });
+        }
+    </script>
+</body>
+</html>
