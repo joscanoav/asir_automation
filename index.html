@@ -36,12 +36,13 @@
             font-family: var(--font-ui);
             line-height: 1.6;
             overflow-x: hidden;
+            scroll-behavior: smooth;
         }
 
         a { text-decoration: none; color: inherit; transition: 0.3s; }
         ul { list-style: none; }
 
-        /* --- NAVBAR (Sticky Header) --- */
+        /* --- NAVBAR --- */
         .navbar {
             position: sticky;
             top: 0;
@@ -55,28 +56,13 @@
             align-items: center;
         }
 
-        .logo {
-            font-weight: 700;
-            font-size: 1.2rem;
-            letter-spacing: 1px;
-        }
+        .logo { font-weight: 700; font-size: 1.2rem; letter-spacing: 1px; }
         .logo span { color: var(--accent-cyan); }
+        .nav-links { display: flex; gap: 2rem; }
+        .nav-links a { font-size: 0.9rem; font-weight: 500; }
+        .nav-links a:hover { color: var(--accent-cyan); }
 
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-        }
-
-        .nav-links a {
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-
-        .nav-links a:hover {
-            color: var(--accent-cyan);
-        }
-
-        /* --- HERO SECTION --- */
+        /* --- HERO --- */
         .hero {
             height: 90vh;
             display: flex;
@@ -88,25 +74,9 @@
             background: radial-gradient(circle at top, #1f293a 0%, var(--bg-dark) 70%);
         }
 
-        .hero h1 {
-            font-size: 3.5rem;
-            line-height: 1.2;
-            margin-bottom: 1rem;
-            max-width: 900px;
-        }
-
-        .highlight-sysadmin {
-            color: var(--accent-cyan);
-            position: relative;
-            display: inline-block;
-        }
-        
-        .hero h2 {
-            font-size: 1.5rem;
-            color: var(--text-muted);
-            font-weight: 400;
-            margin-bottom: 3rem;
-        }
+        .hero h1 { font-size: 3.5rem; line-height: 1.2; margin-bottom: 1rem; max-width: 900px; }
+        .highlight-sysadmin { color: var(--accent-cyan); }
+        .hero h2 { font-size: 1.5rem; color: var(--text-muted); font-weight: 400; margin-bottom: 3rem; }
 
         .cta-btn {
             background: transparent;
@@ -118,7 +88,6 @@
             border-radius: 4px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 0 10px rgba(57, 172, 231, 0.1);
         }
 
         .cta-btn:hover {
@@ -128,22 +97,15 @@
             transform: translateY(-2px);
         }
 
-        /* --- SECTION: EL ESCENARIO --- */
+        /* --- SCENARIO --- */
         .scenario {
             background-color: var(--bg-card);
             padding: 5rem 10%;
             text-align: center;
             border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
         }
 
-        .scenario-context {
-            font-family: var(--font-code);
-            color: var(--accent-cyan);
-            margin-bottom: 1.5rem;
-            display: block;
-        }
-
+        .scenario-context { font-family: var(--font-code); color: var(--accent-cyan); margin-bottom: 1.5rem; display: block; }
         .mission-card {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid var(--border);
@@ -157,586 +119,437 @@
         .mission-card::before {
             content: "MISIÓN CRÍTICA";
             position: absolute;
-            top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--bg-card);
-            padding: 0 1rem;
-            color: var(--accent-red);
-            font-weight: bold;
-            font-size: 0.9rem;
-            letter-spacing: 2px;
+            top: -12px; left: 50%; transform: translateX(-50%);
+            background: var(--bg-card); padding: 0 1rem;
+            color: var(--accent-red); font-weight: bold; font-size: 0.9rem;
         }
 
-        .mission-card h3 {
-            font-size: 2rem;
-            font-weight: 600;
-        }
-
-        /* --- SECTION: COMPARATIVA --- */
-        .comparison {
-            padding: 5rem 10%;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .option-card {
-            background: var(--bg-card);
-            padding: 2.5rem;
-            border-radius: 12px;
-            text-align: center;
-            border: 1px solid var(--border);
-            transition: transform 0.3s ease, border-color 0.3s ease;
+        /* --- COMPARISON (ANIMATED) --- */
+        .comparison { padding: 5rem 10%; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        
+        .option-card { 
+            background: var(--bg-card); 
+            padding: 2.5rem; 
+            border-radius: 12px; 
+            text-align: center; 
+            border: 1px solid var(--border); 
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            position: relative;
+            overflow: hidden;
         }
 
         .option-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-10px);
         }
 
-        .option-a:hover { border-color: var(--accent-red); }
-        .option-b:hover { border-color: var(--accent-green); }
-
-        .icon-box {
-            font-size: 3rem;
-            margin-bottom: 1.5rem;
+        /* Card A: Becario */
+        .option-a:hover {
+            border-color: var(--accent-red);
+            box-shadow: 0 10px 30px rgba(255, 85, 85, 0.2);
+        }
+        .option-a:hover .icon-box i {
+            animation: shake 0.5s ease infinite;
         }
 
+        /* Card B: Senior */
+        .option-b:hover {
+            border-color: var(--accent-green);
+            box-shadow: 0 10px 30px rgba(0, 255, 0, 0.2);
+        }
+        .option-b:hover .icon-box i {
+            animation: bounce 1s infinite;
+        }
+
+        .icon-box { font-size: 50px; margin-bottom: 1.5rem; display: block; }
         .option-a .icon-box { color: var(--accent-red); }
         .option-b .icon-box { color: var(--accent-green); }
 
-        .option-title {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            font-weight: bold;
+        .result { 
+            font-weight: 800; 
+            padding: 0.8rem 1.5rem; 
+            border-radius: 6px; 
+            display: inline-block; 
+            margin-top: 1.5rem; 
+            letter-spacing: 2px;
+            font-size: 0.9rem;
         }
 
-        .option-desc {
-            color: var(--text-muted);
-            margin-bottom: 1.5rem;
+        .res-fired { 
+            background: rgba(255, 85, 85, 0.1); 
+            color: var(--accent-red); 
+            border: 1px solid var(--accent-red);
+        }
+        
+        /* Animación Shake para el Becario */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-5px) rotate(-5deg); }
+            40% { transform: translateX(5px) rotate(5deg); }
+            60% { transform: translateX(-5px) rotate(-5deg); }
+            80% { transform: translateX(5px) rotate(5deg); }
         }
 
-        .result {
-            font-weight: 800;
-            letter-spacing: 1px;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            display: inline-block;
+        .res-promoted { 
+            background: var(--accent-green); 
+            color: var(--bg-dark); 
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.4);
+            animation: pulse-glow 2s infinite;
         }
 
-        .res-fired { background: rgba(255, 85, 85, 0.1); color: var(--accent-red); }
-        .res-promoted { background: rgba(0, 255, 0, 0.1); color: var(--accent-green); }
-
-        /* --- SECTION: EL CÓDIGO (TERMINAL) --- */
-        .script-section {
-            padding: 5rem 10%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 5px rgba(0, 255, 0, 0.4); }
+            50% { box-shadow: 0 0 25px rgba(0, 255, 0, 0.8); }
+            100% { box-shadow: 0 0 5px rgba(0, 255, 0, 0.4); }
         }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-20px);}
+            60% {transform: translateY(-10px);}
+        }
+
+        /* --- SCRIPT SECTION --- */
+        .script-section { padding: 5rem 10%; display: flex; flex-direction: column; align-items: center; }
+        
+        .permission-toggle { width: 100%; max-width: 800px; margin-bottom: 1rem; }
+        .toggle-btn {
+            width: 100%; background: rgba(255, 85, 85, 0.1); border: 1px dashed var(--accent-red); color: var(--accent-red);
+            padding: 12px; cursor: pointer; border-radius: 6px; font-family: var(--font-ui); font-weight: 600;
+            display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.3s;
+        }
+        .toggle-btn:hover { background: rgba(255, 85, 85, 0.2); }
+
+        .permission-drawer {
+            display: none; background: #1a0b0b; border: 1px solid var(--accent-red); border-top: none;
+            border-radius: 0 0 6px 6px; padding: 1.5rem; margin-top: -5px; animation: slideDown 0.3s ease-out forwards;
+        }
+
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
         .terminal-window {
-            width: 100%;
-            max-width: 800px;
-            background: #012456; /* Classic PowerShell Blue/Black Mix */
-            border-radius: 8px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            overflow: hidden;
-            font-family: var(--font-code);
-            border: 1px solid #333;
+            width: 100%; max-width: 800px; background: #012456; border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); overflow: hidden; font-family: var(--font-code); border: 1px solid #333;
         }
 
-        .terminal-header {
-            background: #2d2d2d;
-            padding: 10px 15px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .window-controls {
-            display: flex;
-            gap: 8px;
-        }
-
+        .terminal-header { background: #2d2d2d; padding: 10px 15px; display: flex; align-items: center; justify-content: space-between; }
+        .window-controls { display: flex; gap: 8px; }
         .dot { width: 12px; height: 12px; border-radius: 50%; }
-        .red { background: #ff5f56; }
-        .yellow { background: #ffbd2e; }
-        .green { background: #27c93f; }
+        .red { background: #ff5f56; } .yellow { background: #ffbd2e; } .green { background: #27c93f; }
+        .terminal-title { color: #ccc; font-size: 0.8rem; }
 
-        .terminal-title {
-            color: #ccc;
-            font-size: 0.8rem;
-        }
-
-        .copy-btn {
-            background: rgba(255,255,255,0.1);
-            border: none;
-            color: #fff;
-            padding: 5px 10px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            transition: background 0.2s;
-        }
-
+        .copy-btn { background: rgba(255,255,255,0.1); border: none; color: #fff; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; }
         .copy-btn:hover { background: rgba(255,255,255,0.2); }
 
-        .code-body {
-            padding: 20px;
-            color: #f0f0f0;
-            font-size: 0.95rem;
-            overflow-x: auto;
-            position: relative;
-        }
-        
-        /* Syntax Highlighting Simulado */
-        .ps-comment { color: #6a9955; }
-        .ps-cmdlet { color: #dcdcaa; } /* Yellowish */
-        .ps-string { color: #ce9178; }
-        .ps-pipe { color: var(--accent-cyan); font-weight: bold; }
-        .ps-var { color: #9cdcfe; }
+        .code-body { padding: 20px; color: #f0f0f0; font-size: 0.9rem; overflow-x: auto; }
+        .ps-comment { color: #6a9955; } .ps-cmdlet { color: #dcdcaa; } .ps-string { color: #ce9178; } .ps-pipe { color: var(--accent-cyan); font-weight: bold; } .ps-var { color: #9cdcfe; }
 
-        /* --- SECTION: STEP BY STEP --- */
-        .steps-section {
-            background-color: var(--bg-dark);
-            padding: 5rem 10%;
-        }
+        /* --- STEPS SECTION --- */
+        .steps-section { background-color: var(--bg-dark); padding: 5rem 10%; }
+        .steps-section h2 { text-align: center; margin-bottom: 3rem; font-size: 2.2rem; }
+        .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+        .step-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; transition: 0.3s; }
+        .step-card:hover { border-color: var(--accent-cyan); }
+        .step-header { display: flex; align-items: center; gap: 12px; margin-bottom: 1rem; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+        .step-icon { font-size: 1.5rem; color: var(--accent-cyan); }
+        .step-title { font-size: 1.1rem; font-weight: 700; color: #fff; }
+        .mini-code { background: #000; padding: 0.8rem; border-radius: 6px; font-family: var(--font-code); font-size: 0.8rem; margin: 1rem 0; border-left: 3px solid var(--accent-green); overflow-x: auto; white-space: nowrap; }
+        .step-list { list-style: none; font-size: 0.9rem; color: var(--text-muted); }
+        .step-list li { margin-bottom: 0.8rem; display: flex; gap: 10px; align-items: flex-start; }
+        .step-list i { color: var(--accent-green); margin-top: 4px; font-size: 0.8rem; }
+        .highlight-bold { color: #fff; font-weight: 600; }
 
-        .steps-section h2 {
-            text-align: center;
-            font-size: 2rem;
-            margin-bottom: 3rem;
-            color: var(--text-main);
-        }
-
-        .steps-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .step-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 1.5rem;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .step-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 1rem;
-        }
-
-        .step-icon {
-            font-size: 1.8rem;
-            color: var(--accent-cyan);
-        }
-
-        .step-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-        }
-
-        .mini-code {
-            background: #000;
-            padding: 1rem;
-            border-radius: 6px;
-            font-family: var(--font-code);
-            font-size: 0.8rem;
-            color: var(--text-main);
-            margin-bottom: 1.5rem;
-            border-left: 3px solid var(--accent-green);
-            overflow-x: auto;
-            white-space: nowrap;
-        }
-
-        .step-list {
-            list-style: none;
-        }
-
-        .step-list li {
-            margin-bottom: 0.8rem;
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-        }
-
-        .step-list li i {
-            color: var(--accent-green);
-            margin-top: 5px;
-            font-size: 0.8rem;
-        }
-
-        .highlight-text {
-            color: var(--text-main);
-            font-weight: 600;
-            font-family: var(--font-code);
-            background: rgba(255,255,255,0.05);
-            padding: 0 4px;
-            border-radius: 3px;
-        }
-
-        /* --- SECTION: GOD MODE --- */
-        .remote-mode {
-            padding: 5rem 1rem;
-            text-align: center;
-            background: linear-gradient(180deg, var(--bg-card) 0%, #0d161d 100%);
-            border-top: 1px solid var(--border);
-        }
-
-        .remote-mode h2 {
-            font-size: 2.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .command-block {
-            background: #000;
-            border: 1px solid var(--accent-green);
-            color: var(--accent-green);
-            padding: 1.5rem;
-            font-family: var(--font-code);
-            border-radius: 6px;
-            display: inline-block;
-            font-size: 1.1rem;
-            box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
-            max-width: 90%;
-            word-break: break-all;
-        }
+        /* --- REMOTE MODE --- */
+        .remote-mode { padding: 5rem 10%; text-align: center; background: var(--bg-card); border-top: 1px solid var(--border); }
+        .remote-mode h2 { font-size: 2.2rem; margin-bottom: 2rem; color: var(--accent-green); }
+        .massive-toggle-container { width: 100%; max-width: 900px; margin: 0 auto; text-align: left; }
+        .massive-btn { width: 100%; background: rgba(0, 255, 0, 0.05); border: 2px solid var(--accent-green); color: var(--accent-green); padding: 20px; border-radius: 8px; font-size: 1.1rem; font-weight: 700; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 15px; transition: 0.3s; }
+        .massive-btn:hover { background: rgba(0, 255, 0, 0.15); box-shadow: 0 0 20px rgba(0, 255, 0, 0.1); }
+        .massive-drawer { display: none; background: #0b0f14; border: 1px solid var(--border); border-top: none; padding: 2rem; border-radius: 0 0 8px 8px; animation: slideDown 0.4s ease-out forwards; }
+        .drawer-subtitle { color: var(--accent-cyan); font-weight: bold; margin: 1.5rem 0 0.5rem; display: block; }
+        .command-block { background: #000; border: 1px solid var(--border); color: #d1d1d1; padding: 1.5rem; font-family: var(--font-code); border-radius: 6px; margin: 1rem 0; position: relative; font-size: 0.9rem; line-height: 1.4; }
+        .command-block .copy-btn { position: absolute; right: 10px; top: 10px; background: rgba(255,255,255,0.05); }
 
         /* --- FOOTER --- */
-        footer {
-            background: var(--bg-card);
-            border-top: 1px solid var(--border);
-            padding: 4rem 10% 2rem;
-        }
+        footer { background: var(--bg-dark); border-top: 1px solid var(--border); padding: 4rem 10% 2rem; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-bottom: 2rem; }
+        .copyright { text-align: center; color: var(--text-muted); font-size: 0.85rem; padding-top: 2rem; border-top: 1px solid var(--border); }
 
-        .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-
-        .footer-col h4 {
-            color: #fff;
-            margin-bottom: 1rem;
-            font-size: 1.1rem;
-        }
-
-        .footer-col ul li {
-            margin-bottom: 0.5rem;
-            color: var(--text-muted);
-        }
-        
-        .footer-col ul li a:hover {
-            color: var(--accent-cyan);
-            text-decoration: underline;
-        }
-
-        .copyright {
-            text-align: center;
-            color: #484f58;
-            font-size: 0.85rem;
-            padding-top: 2rem;
-            border-top: 1px solid #30363d;
-        }
-
-        /* --- RESPONSIVE --- */
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2.5rem; }
-            .nav-links { display: none; } /* Ocultar links en móvil para simplificar demo */
-            .mission-card h3 { font-size: 1.5rem; }
-            .terminal-window { font-size: 0.8rem; }
-            .command-block { font-size: 0.9rem; padding: 1rem; width: 100%; word-break: break-all; }
-        }
+        @media (max-width: 768px) { .hero h1 { font-size: 2.5rem; } .nav-links { display: none; } }
     </style>
 </head>
 <body>
 
-    <!-- NAVBAR -->
     <nav class="navbar">
         <div class="logo">ASIR / <span>AUTOMATION</span></div>
         <div class="nav-links">
             <a href="#hero">Inicio</a>
-            <a href="#reto">El Reto</a>
             <a href="#script">Script</a>
-            <a href="#steps">Explicación</a>
-            <a href="#remote">Remote Mode</a>
+            <a href="#steps">Paso a Paso</a>
+            <a href="#remote">Remoto (God Mode)</a>
         </div>
     </nav>
 
-    <!-- HERO SECTION -->
     <section class="hero" id="hero">
         <h1>Deja de ser Usuario.<br>Conviértete en <span class="highlight-sysadmin">SysAdmin</span>.</h1>
         <h2>Domina la automatización con PowerShell y recupera tu tiempo.</h2>
         <a href="#script" class="cta-btn">Ver la Solución 👇</a>
     </section>
 
-    <!-- EL ESCENARIO -->
-    <section class="scenario" id="reto">
+    <section class="scenario">
         <span class="scenario-context">/// Lunes, 8:00 AM ///</span>
         <div class="mission-card">
-            <p style="color: var(--text-muted); margin-bottom: 1rem;">El Jefe de Sistemas entra por la puerta con una carpeta.</p>
             <h3>"¿Cómo sacas el inventario de hardware de 100 PCs antes de las 12:00?"</h3>
         </div>
     </section>
 
-    <!-- LAS DOS OPCIONES -->
+    <!-- SECCIÓN COMPARATIVA CON ANIMACIONES -->
     <section class="comparison">
-        <!-- OPCIÓN A -->
+        <!-- Opción A -->
         <div class="option-card option-a">
             <div class="icon-box"><i class="fas fa-usb"></i></div>
             <div class="option-title">Opción A: El Becario</div>
-            <p class="option-desc">Va PC por PC con un USB ejecutando dxdiag y apuntando en un Excel. Tarda 1 semana. Errores humanos garantizados.</p>
+            <p style="color: var(--text-muted);">Va PC por PC con un pendrive. Tarda 1 semana y comete errores.</p>
             <div class="result res-fired">DESPEDIDO</div>
         </div>
-
-        <!-- OPCIÓN B -->
+        
+        <!-- Opción B -->
         <div class="option-card option-b">
             <div class="icon-box"><i class="fas fa-terminal"></i></div>
             <div class="option-title">Opción B: El Senior</div>
-            <p class="option-desc">Se sienta, abre PowerShell ISE. Escribe un script de 10 líneas. Ejecuta. Se toma un café.</p>
+            <p style="color: var(--text-muted);">Escribe un script maestro. Tarda 1 minuto y es perfecto.</p>
             <div class="result res-promoted">ASCENDIDO</div>
         </div>
     </section>
 
-    <!-- EL CÓDIGO -->
+    <!-- SECCIÓN SCRIPT LOCAL -->
     <section class="script-section" id="script">
+        <div class="permission-toggle">
+            <button class="toggle-btn" onclick="toggleDrawer('drawer')">
+                <i class="fas fa-exclamation-triangle"></i> 
+                ¿Tienes errores de ejecución? Pulsa aquí para desbloquear PowerShell
+            </button>
+            <div id="drawer" class="permission-drawer">
+                <p>Ejecuta este comando una sola vez en tu consola antes de lanzar el script:</p>
+                <div class="mini-code" style="border-left-color: var(--accent-red); display: flex; justify-content: space-between; align-items: center;">
+                    <span id="policy-cmd">Set-ExecutionPolicy RemoteSigned -Scope Process</span>
+                    <button class="copy-btn" onclick="copyText('policy-cmd')">Copiar</button>
+                </div>
+            </div>
+        </div>
+
         <div class="terminal-window">
             <div class="terminal-header">
                 <div class="window-controls">
-                    <div class="dot red"></div>
-                    <div class="dot yellow"></div>
-                    <div class="dot green"></div>
+                    <div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div>
                 </div>
-                <div class="terminal-title">Administrator: Windows PowerShell</div>
-                <button class="copy-btn" onclick="copyCode()"><i class="fas fa-copy"></i> Copiar Script</button>
+                <div class="terminal-title">Auditor_Hardware.ps1</div>
+                <button class="copy-btn" onclick="copyMainScript()"><i class="fas fa-copy"></i> Copiar Script</button>
             </div>
             <div class="code-body">
-<pre><code id="ps-code">
-<span class="ps-comment"># 0. Permisos (Vital si te sale error rojo)</span>
-<span class="ps-cmdlet">Set-ExecutionPolicy</span> RemoteSigned -Scope Process
-
-<span class="ps-comment"># 1. Seguridad: Mover al escritorio</span>
+<pre><code><span class="ps-comment"># 1. Seguridad: Mover al escritorio</span>
 <span class="ps-cmdlet">cd</span> <span class="ps-var">$HOME</span>\Desktop
 
 <span class="ps-comment"># 2. Técnica del Sándwich (Agrupar datos)</span>
 <span class="ps-var">$(</span>
     <span class="ps-string">"--- CPU ---"</span> 
-    <span class="ps-cmdlet">Get-CimInstance</span> Win32_Processor <span class="ps-pipe">|</span> <span class="ps-cmdlet">Select-Object</span> Name, NumberOfCores
+    <span class="ps-cmdlet">Get-CimInstance</span> Win32_Processor <span class="ps-pipe">|</span> <span class="ps-cmdlet">Select-Object</span> Name, NumberOfCores <span class="ps-pipe">|</span> <span class="ps-cmdlet">Out-String</span>
 
     <span class="ps-string">"--- RAM ---"</span>
-    <span class="ps-cmdlet">Get-CimInstance</span> Win32_PhysicalMemory <span class="ps-pipe">|</span> <span class="ps-cmdlet">Select-Object</span> Capacity, Speed
+    <span class="ps-cmdlet">Get-CimInstance</span> Win32_PhysicalMemory <span class="ps-pipe">|</span> <span class="ps-cmdlet">Select-Object</span> Capacity, Speed <span class="ps-pipe">|</span> <span class="ps-cmdlet">Out-String</span>
 
     <span class="ps-string">"--- DISCO ---"</span>
-    <span class="ps-cmdlet">Get-PhysicalDisk</span> <span class="ps-pipe">|</span> <span class="ps-cmdlet">Select-Object</span> FriendlyName, MediaType, Size
+    <span class="ps-cmdlet">Get-PhysicalDisk</span> <span class="ps-pipe">|</span> <span class="ps-cmdlet">Select-Object</span> FriendlyName, MediaType, Size <span class="ps-pipe">|</span> <span class="ps-cmdlet">Out-String</span>
 
 <span class="ps-var">)</span> <span class="ps-pipe">|</span> <span class="ps-cmdlet">Out-File</span> <span class="ps-string">"INFORME_JEFE.txt"</span>
 
-<span class="ps-comment"># 3. Resultado (¡PON .EXE PARA QUE NO SALGA EL RARO!)</span>
-<span class="ps-cmdlet">notepad.exe</span> INFORME_JEFE.txt
-</code></pre>
+<span class="ps-comment"># 3. Resultado</span>
+<span class="ps-cmdlet">notepad.exe</span> INFORME_JEFE.txt</code></pre>
             </div>
         </div>
     </section>
 
-    <!-- ENTENDIENDO EL CÓDIGO (NUEVA SECCIÓN) -->
+    <!-- SECCIÓN PASO A PASO -->
     <section class="steps-section" id="steps">
         <h2>Entendiendo el Código (Paso a Paso)</h2>
         <div class="steps-grid">
             
-            <!-- BLOQUE 0: PERMISOS -->
             <div class="step-card">
                 <div class="step-header">
                     <i class="fas fa-user-shield step-icon"></i>
-                    <div class="step-title">0. Permisos (Vital)</div>
+                    <span class="step-title">0. Permisos (Vital)</span>
                 </div>
                 <div class="mini-code">Set-ExecutionPolicy RemoteSigned ...</div>
                 <ul class="step-list">
-                    <li><i class="fas fa-check"></i> <span><span class="highlight-text">Set-ExecutionPolicy</span>: Pide permiso a Windows para usar scripts.</span></li>
-                    <li><i class="fas fa-check"></i> <span><span class="highlight-text">-Scope Process</span>: El permiso solo dura mientras tengas abierta ESTA ventana (Modo seguro).</span></li>
+                    <li><i class="fas fa-chevron-right"></i> <span><span class="highlight-bold">Set-ExecutionPolicy</span>: Pide permiso a Windows para usar scripts.</span></li>
+                    <li><i class="fas fa-chevron-right"></i> <span><span class="highlight-bold">-Scope Process</span>: El permiso solo dura mientras tengas abierta ESTA ventana (Modo seguro).</span></li>
                 </ul>
             </div>
 
-            <!-- BLOQUE 1 -->
             <div class="step-card">
                 <div class="step-header">
                     <i class="fas fa-folder-open step-icon"></i>
-                    <div class="step-title">1. Preparación</div>
+                    <span class="step-title">1. Preparación</span>
                 </div>
                 <div class="mini-code">cd $HOME\Desktop</div>
                 <ul class="step-list">
-                    <li><i class="fas fa-check"></i> <span><span class="highlight-text">cd</span>: Comando para viajar por carpetas.</span></li>
-                    <li><i class="fas fa-check"></i> <span><span class="highlight-text">$HOME</span>: Variable automática que lleva a tu carpeta personal.</span></li>
-                    <li><i class="fas fa-crosshairs"></i> <span><strong>Objetivo:</strong> Que el informe aparezca delante de tus narices.</span></li>
+                    <li><i class="fas fa-chevron-right"></i> <span><span class="highlight-bold">cd</span>: Comando para viajar por carpetas.</span></li>
+                    <li><i class="fas fa-chevron-right"></i> <span><span class="highlight-bold">$HOME</span>: Variable automática que lleva a tu escritorio.</span></li>
+                    <li><i class="fas fa-bullseye"></i> <span><span class="highlight-bold">Objetivo:</span> Que el informe aparezca delante de tus narices.</span></li>
                 </ul>
             </div>
 
-            <!-- BLOQUE 2 -->
             <div class="step-card">
                 <div class="step-header">
                     <i class="fas fa-layer-group step-icon"></i>
-                    <div class="step-title">2. Técnica del Sándwich</div>
+                    <span class="step-title">2. Técnica del Sándwich</span>
                 </div>
                 <div class="mini-code">$( ... ) | Out-File "INFORME.txt"</div>
                 <ul class="step-list">
-                    <li><i class="fas fa-check"></i> <span><span class="highlight-text">$( )</span>: La "Bolsa Mágica". Agrupa todo lo que ocurre dentro.</span></li>
-                    <li><i class="fas fa-check"></i> <span><span class="highlight-text">Get-CimInstance</span>: Interroga a Windows (CPU, RAM).</span></li>
-                    <li><i class="fas fa-arrow-right"></i> <span><span class="highlight-text">| Out-File</span>: Envía la bolsa cerrada al archivo de texto.</span></li>
+                    <li><i class="fas fa-chevron-right"></i> <span><span class="highlight-bold">$( )</span>: La "Bolsa Mágica". Agrupa todo lo que ocurre dentro.</span></li>
+                    <li><i class="fas fa-chevron-right"></i> <span><span class="highlight-bold">Get-CimInstance</span>: Interroga a Windows (CPU, RAM).</span></li>
+                    <li><i class="fas fa-chevron-right"></i> <span><span class="highlight-bold">| Out-File</span>: Envía la bolsa cerrada al archivo de texto.</span></li>
                 </ul>
             </div>
 
-            <!-- BLOQUE 3 -->
             <div class="step-card">
                 <div class="step-header">
                     <i class="fas fa-rocket step-icon"></i>
-                    <div class="step-title">3. El Resultado</div>
+                    <span class="step-title">3. El Resultado</span>
                 </div>
                 <div class="mini-code">notepad.exe INFORME_JEFE.txt</div>
                 <ul class="step-list">
-                    <li><i class="fas fa-check"></i> <span><span class="highlight-text">notepad.exe</span>: Usamos .exe para evitar conflictos con Git.</span></li>
-                    <li><i class="fas fa-flag-checkered"></i> <span><strong>Resultado:</strong> El informe se abre automáticamente al terminar.</span></li>
+                    <li><i class="fas fa-chevron-right"></i> <span><span class="highlight-bold">notepad.exe</span>: Usamos .exe para evitar conflictos de sistema.</span></li>
+                    <li><i class="fas fa-check-circle"></i> <span><span class="highlight-bold">Resultado:</span> El informe se abre automáticamente al terminar.</span></li>
                 </ul>
             </div>
 
         </div>
     </section>
 
-    <!-- MODO DIOS -->
+    <!-- SECCIÓN AUDITORÍA MASIVA (REMOTA) -->
     <section class="remote-mode" id="remote">
-        <h2>¿Y para los 100 PCs?</h2>
-        <p style="color: var(--text-muted); margin-bottom: 2rem;">No tienes que levantarte de la silla. Despliega el poder de Remote Management.</p>
-        <div class="command-block">
-            Invoke-Command -ComputerName (Get-Content lista_pcs.txt) -FilePath "Auditor_Hardware.ps1"
+        <h2>🚀 Auditoría Masiva (God Mode)</h2>
+        <div class="massive-toggle-container">
+            <button class="massive-btn" onclick="toggleDrawer('massive-drawer')">
+                <i class="fas fa-network-wired"></i> 
+                Ver solución para Auditoría de +100 PCs (Oculto)
+            </button>
+            <div id="massive-drawer" class="massive-drawer">
+                <p style="color: var(--text-main); font-weight: bold; margin-bottom: 1rem;">
+                    Este es el contenido para el archivo <span class="highlight-text">Auditor_Remoto.ps1</span>:
+                </p>
+
+                <div class="command-block">
+                    <button class="copy-btn" onclick="copyMassiveScript()"><i class="fas fa-copy"></i> Copiar</button>
+                    <pre><code style="color: #6a9955;"># ==========================================
+#  AUDITOR REMOTO (MODO SILENCIOSO)
+# ==========================================</code>
+<code style="color: #f0f0f0;">$(
+    "--- REPORTE DESDE: $env:COMPUTERNAME ---"
+
+    "--- CPU ---" 
+    Get-CimInstance Win32_Processor | Select-Object Name, NumberOfCores | Out-String
+
+    "--- RAM ---"
+    Get-CimInstance Win32_PhysicalMemory | Select-Object Capacity, Speed | Out-String
+
+    "--- DISCO ---"
+    Get-PhysicalDisk | Select-Object FriendlyName, MediaType, Size | Out-String
+)</code></pre>
+                </div>
+
+                <span class="drawer-subtitle">📂 Cómo se ejecuta (El "Comando Maestro")</span>
+                <div class="command-block">
+                    <button class="copy-btn" onclick="copyText('cmd-master')"><i class="fas fa-copy"></i> Copiar</button>
+                    <code id="cmd-master" style="color: var(--accent-green);">Invoke-Command -ComputerName (Get-Content lista_pcs.txt) -FilePath ".\Auditor_Remoto.ps1" | Out-File "$HOME\Desktop\REPORTE_GLOBAL.txt"</code>
+                </div>
+
+                <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 10px;">
+                    <i class="fas fa-info-circle"></i> Al terminar, abres el informe centralizado: <br>
+                    <code style="color: var(--accent-cyan);">notepad.exe "$HOME\Desktop\REPORTE_GLOBAL.txt"</code>
+                </p>
+            </div>
         </div>
     </section>
 
-    <!-- FOOTER -->
     <footer>
         <div class="footer-grid">
             <div class="footer-col">
-                <h4>ASIR Masterclass</h4>
-                <ul>
-                    <li><a href="#">Sobre el Curso</a></li>
-                    <li><a href="#">Mentores</a></li>
-                    <li><a href="#">Certificaciones</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
                 <h4>Recursos</h4>
-                <ul>
-                    <li><a href="#"><i class="fab fa-github"></i> Repositorio Git</a></li>
-                    <li><a href="#">Cheatsheet PDF</a></li>
-                    <li><a href="#">Comunidad Discord</a></li>
-                </ul>
+                <ul><li><a href="#">Git Repo</a></li><li><a href="#">Discord ASIR</a></li></ul>
             </div>
             <div class="footer-col">
-                <h4>Contacto</h4>
-                <ul>
-                    <li><a href="#">soporte@asir-automation.com</a></li>
-                    <li><a href="#">Madrid, España</a></li>
-                </ul>
+                <h4>Legal</h4>
+                <ul><li><a href="#">Privacidad</a></li><li><a href="#">Términos</a></li></ul>
             </div>
         </div>
         <div class="copyright">
-            <p>&copy; <span id="year"></span> ASIR Automation Academy. Derechos reservados Joscanoav. Code is Law.</p>
+            &copy; <span id="year"></span> ASIR Automation Academy. Derechos reservados Joscanoav.
         </div>
     </footer>
 
-    <!-- SCRIPT FUNCIONALIDAD -->
     <script>
-        // Auto-date: Pone el año actual automáticamente
         document.getElementById('year').textContent = new Date().getFullYear();
 
-        function copyCode() {
-            // El texto crudo para copiar (sin tags HTML)
-            const rawCode = `# 0. Permisos (Vital si te sale error rojo)
-Set-ExecutionPolicy RemoteSigned -Scope Process
+        function toggleDrawer(id) {
+            const drawer = document.getElementById(id);
+            drawer.style.display = (drawer.style.display === 'block') ? 'none' : 'block';
+        }
 
-# 1. Seguridad: Mover al escritorio
+        function copyText(id) {
+            const text = document.getElementById(id).textContent;
+            navigator.clipboard.writeText(text);
+            const btn = event.currentTarget;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-check"></i>';
+            setTimeout(() => btn.innerHTML = originalText, 2000);
+        }
+
+        function copyMainScript() {
+            const script = `# 1. Seguridad: Mover al escritorio
 cd $HOME\\Desktop
 
 # 2. Técnica del Sándwich (Agrupar datos)
 $(
     "--- CPU ---" 
-    Get-CimInstance Win32_Processor | Select-Object Name, NumberOfCores
+    Get-CimInstance Win32_Processor | Select-Object Name, NumberOfCores | Out-String
 
     "--- RAM ---"
-    Get-CimInstance Win32_PhysicalMemory | Select-Object Capacity, Speed
+    Get-CimInstance Win32_PhysicalMemory | Select-Object Capacity, Speed | Out-String
 
     "--- DISCO ---"
-    Get-PhysicalDisk | Select-Object FriendlyName, MediaType, Size
+    Get-PhysicalDisk | Select-Object FriendlyName, MediaType, Size | Out-String
 
 ) | Out-File "INFORME_JEFE.txt"
 
-# 3. Resultado (¡PON .EXE PARA QUE NO SALGA EL RARO!)
+# 3. Resultado
 notepad.exe INFORME_JEFE.txt`;
-
-            // Función Helper para Feedback Visual
-            const showSuccess = () => {
-                const btn = document.querySelector('.copy-btn');
-                const originalText = '<i class="fas fa-copy"></i> Copiar Script';
-                
-                // Feedback visual
-                btn.innerHTML = '<i class="fas fa-check"></i> Copiado';
-                btn.style.background = "rgba(39, 201, 63, 0.3)";
-                btn.style.color = "#27c93f";
-
-                setTimeout(() => {
-                    btn.innerHTML = originalText;
-                    btn.style.background = "";
-                    btn.style.color = "";
-                }, 2000);
-            };
-
-            // Intentar usar la API moderna de Portapapeles
-            if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(rawCode)
-                    .then(showSuccess)
-                    .catch((err) => {
-                        console.error('API Clipboard falló, intentando fallback...', err);
-                        fallbackCopy(rawCode, showSuccess);
-                    });
-            } else {
-                // Fallback para entornos no seguros o navegadores antiguos
-                fallbackCopy(rawCode, showSuccess);
-            }
+            navigator.clipboard.writeText(script);
+            const btn = document.querySelector('.terminal-header .copy-btn');
+            btn.innerHTML = '<i class="fas fa-check"></i> ¡Copiado!';
+            setTimeout(() => btn.innerHTML = '<i class="fas fa-copy"></i> Copiar Script', 2000);
         }
 
-        function fallbackCopy(text, successCallback) {
-            const textArea = document.createElement("textarea");
-            textArea.value = text;
-            
-            // Asegurar que el textarea no es visible
-            textArea.style.position = "fixed";
-            textArea.style.left = "-9999px";
-            textArea.style.top = "0";
-            
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
+        function copyMassiveScript() {
+            const script = `# ==========================================
+#  AUDITOR REMOTO (MODO SILENCIOSO)
+# ==========================================
+$(
+    "--- REPORTE DESDE: $env:COMPUTERNAME ---"
 
-            try {
-                const successful = document.execCommand('copy');
-                if (successful) {
-                    successCallback();
-                } else {
-                    console.error('Fallback: El comando copy falló.');
-                }
-            } catch (err) {
-                console.error('Fallback: Oops, no se pudo copiar', err);
-            }
+    "--- CPU ---" 
+    Get-CimInstance Win32_Processor | Select-Object Name, NumberOfCores | Out-String
 
-            document.body.removeChild(textArea);
+    "--- RAM ---"
+    Get-CimInstance Win32_PhysicalMemory | Select-Object Capacity, Speed | Out-String
+
+    "--- DISCO ---"
+    Get-PhysicalDisk | Select-Object FriendlyName, MediaType, Size | Out-String
+)`;
+            navigator.clipboard.writeText(script);
+            const btn = event.currentTarget;
+            btn.innerHTML = '<i class="fas fa-check"></i> ¡Copiado!';
+            setTimeout(() => btn.innerHTML = '<i class="fas fa-copy"></i> Copiar', 2000);
         }
     </script>
 </body>
