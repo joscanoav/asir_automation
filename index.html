@@ -681,9 +681,10 @@ $(
 # 3. Resultado (¡PON .EXE PARA QUE NO SALGA EL RARO!)
 notepad.exe INFORME_JEFE.txt`;
 
-            navigator.clipboard.writeText(rawCode).then(() => {
+            // Función Helper para Feedback Visual
+            const showSuccess = () => {
                 const btn = document.querySelector('.copy-btn');
-                const originalText = btn.innerHTML;
+                const originalText = '<i class="fas fa-copy"></i> Copiar Script';
                 
                 // Feedback visual
                 btn.innerHTML = '<i class="fas fa-check"></i> Copiado';
@@ -691,13 +692,51 @@ notepad.exe INFORME_JEFE.txt`;
                 btn.style.color = "#27c93f";
 
                 setTimeout(() => {
-                    btn.innerHTML = '<i class="fas fa-copy"></i> Copiar Script';
+                    btn.innerHTML = originalText;
                     btn.style.background = "";
                     btn.style.color = "";
                 }, 2000);
-            }).catch(err => {
-                console.error('Error al copiar: ', err);
-            });
+            };
+
+            // Intentar usar la API moderna de Portapapeles
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(rawCode)
+                    .then(showSuccess)
+                    .catch((err) => {
+                        console.error('API Clipboard falló, intentando fallback...', err);
+                        fallbackCopy(rawCode, showSuccess);
+                    });
+            } else {
+                // Fallback para entornos no seguros o navegadores antiguos
+                fallbackCopy(rawCode, showSuccess);
+            }
+        }
+
+        function fallbackCopy(text, successCallback) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            
+            // Asegurar que el textarea no es visible
+            textArea.style.position = "fixed";
+            textArea.style.left = "-9999px";
+            textArea.style.top = "0";
+            
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    successCallback();
+                } else {
+                    console.error('Fallback: El comando copy falló.');
+                }
+            } catch (err) {
+                console.error('Fallback: Oops, no se pudo copiar', err);
+            }
+
+            document.body.removeChild(textArea);
         }
     </script>
 </body>
