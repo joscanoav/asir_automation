@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ASIR Automation Masterclass | PowerShell</title>
+    <!-- Favicon: Terminal Icon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='0' y='0' width='64' height='64' rx='8' fill='%230d1117'/%3E%3Cpath d='M12 20 L28 32 L12 44' stroke='%2339ace7' stroke-width='6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cline x1='36' y1='44' x2='52' y2='44' stroke='%2300ff00' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E">
     <!-- FontAwesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -295,11 +297,100 @@
         .ps-pipe { color: var(--accent-cyan); font-weight: bold; }
         .ps-var { color: #9cdcfe; }
 
+        /* --- SECTION: STEP BY STEP --- */
+        .steps-section {
+            background-color: var(--bg-dark);
+            padding: 5rem 10%;
+        }
+
+        .steps-section h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 3rem;
+            color: var(--text-main);
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .step-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1rem;
+        }
+
+        .step-icon {
+            font-size: 1.8rem;
+            color: var(--accent-cyan);
+        }
+
+        .step-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .mini-code {
+            background: #000;
+            padding: 1rem;
+            border-radius: 6px;
+            font-family: var(--font-code);
+            font-size: 0.8rem;
+            color: var(--text-main);
+            margin-bottom: 1.5rem;
+            border-left: 3px solid var(--accent-green);
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .step-list {
+            list-style: none;
+        }
+
+        .step-list li {
+            margin-bottom: 0.8rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .step-list li i {
+            color: var(--accent-green);
+            margin-top: 5px;
+            font-size: 0.8rem;
+        }
+
+        .highlight-text {
+            color: var(--text-main);
+            font-weight: 600;
+            font-family: var(--font-code);
+            background: rgba(255,255,255,0.05);
+            padding: 0 4px;
+            border-radius: 3px;
+        }
+
         /* --- SECTION: GOD MODE --- */
         .remote-mode {
             padding: 5rem 1rem;
             text-align: center;
-            background: linear-gradient(180deg, var(--bg-dark) 0%, #0d161d 100%);
+            background: linear-gradient(180deg, var(--bg-card) 0%, #0d161d 100%);
+            border-top: 1px solid var(--border);
         }
 
         .remote-mode h2 {
@@ -317,6 +408,8 @@
             display: inline-block;
             font-size: 1.1rem;
             box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
+            max-width: 90%;
+            word-break: break-all;
         }
 
         /* --- FOOTER --- */
@@ -376,6 +469,7 @@
             <a href="#hero">Inicio</a>
             <a href="#reto">El Reto</a>
             <a href="#script">Script</a>
+            <a href="#steps">Explicación</a>
             <a href="#remote">Remote Mode</a>
         </div>
     </nav>
@@ -429,26 +523,91 @@
             </div>
             <div class="code-body">
 <pre><code id="ps-code">
+<span class="ps-comment"># 0. Permisos (Vital si te sale error rojo)</span>
+<span class="ps-cmdlet">Set-ExecutionPolicy</span> RemoteSigned -Scope Process
+
 <span class="ps-comment"># 1. Seguridad: Mover al escritorio</span>
 <span class="ps-cmdlet">cd</span> <span class="ps-var">$HOME</span>\Desktop
 
 <span class="ps-comment"># 2. Técnica del Sándwich (Agrupar datos)</span>
 <span class="ps-var">$(</span>
-    <span class="ps-cmdlet">Write-Host</span> <span class="ps-string">"--- CPU ---"</span>
+    <span class="ps-string">"--- CPU ---"</span> 
     <span class="ps-cmdlet">Get-CimInstance</span> Win32_Processor <span class="ps-pipe">|</span> <span class="ps-cmdlet">Select-Object</span> Name, NumberOfCores
 
-    <span class="ps-cmdlet">Write-Host</span> <span class="ps-string">"--- RAM ---"</span>
+    <span class="ps-string">"--- RAM ---"</span>
     <span class="ps-cmdlet">Get-CimInstance</span> Win32_PhysicalMemory <span class="ps-pipe">|</span> <span class="ps-cmdlet">Select-Object</span> Capacity, Speed
 
-    <span class="ps-cmdlet">Write-Host</span> <span class="ps-string">"--- DISCO ---"</span>
+    <span class="ps-string">"--- DISCO ---"</span>
     <span class="ps-cmdlet">Get-PhysicalDisk</span> <span class="ps-pipe">|</span> <span class="ps-cmdlet">Select-Object</span> FriendlyName, MediaType, Size
 
 <span class="ps-var">)</span> <span class="ps-pipe">|</span> <span class="ps-cmdlet">Out-File</span> <span class="ps-string">"INFORME_JEFE.txt"</span>
 
-<span class="ps-comment"># 3. Resultado</span>
-<span class="ps-cmdlet">notepad</span> INFORME_JEFE.txt
+<span class="ps-comment"># 3. Resultado (¡PON .EXE PARA QUE NO SALGA EL RARO!)</span>
+<span class="ps-cmdlet">notepad.exe</span> INFORME_JEFE.txt
 </code></pre>
             </div>
+        </div>
+    </section>
+
+    <!-- ENTENDIENDO EL CÓDIGO (NUEVA SECCIÓN) -->
+    <section class="steps-section" id="steps">
+        <h2>Entendiendo el Código (Paso a Paso)</h2>
+        <div class="steps-grid">
+            
+            <!-- BLOQUE 0: PERMISOS -->
+            <div class="step-card">
+                <div class="step-header">
+                    <i class="fas fa-user-shield step-icon"></i>
+                    <div class="step-title">0. Permisos (Vital)</div>
+                </div>
+                <div class="mini-code">Set-ExecutionPolicy RemoteSigned ...</div>
+                <ul class="step-list">
+                    <li><i class="fas fa-check"></i> <span><span class="highlight-text">Set-ExecutionPolicy</span>: Pide permiso a Windows para usar scripts.</span></li>
+                    <li><i class="fas fa-check"></i> <span><span class="highlight-text">-Scope Process</span>: El permiso solo dura mientras tengas abierta ESTA ventana (Modo seguro).</span></li>
+                </ul>
+            </div>
+
+            <!-- BLOQUE 1 -->
+            <div class="step-card">
+                <div class="step-header">
+                    <i class="fas fa-folder-open step-icon"></i>
+                    <div class="step-title">1. Preparación</div>
+                </div>
+                <div class="mini-code">cd $HOME\Desktop</div>
+                <ul class="step-list">
+                    <li><i class="fas fa-check"></i> <span><span class="highlight-text">cd</span>: Comando para viajar por carpetas.</span></li>
+                    <li><i class="fas fa-check"></i> <span><span class="highlight-text">$HOME</span>: Variable automática que lleva a tu carpeta personal.</span></li>
+                    <li><i class="fas fa-crosshairs"></i> <span><strong>Objetivo:</strong> Que el informe aparezca delante de tus narices.</span></li>
+                </ul>
+            </div>
+
+            <!-- BLOQUE 2 -->
+            <div class="step-card">
+                <div class="step-header">
+                    <i class="fas fa-layer-group step-icon"></i>
+                    <div class="step-title">2. Técnica del Sándwich</div>
+                </div>
+                <div class="mini-code">$( ... ) | Out-File "INFORME.txt"</div>
+                <ul class="step-list">
+                    <li><i class="fas fa-check"></i> <span><span class="highlight-text">$( )</span>: La "Bolsa Mágica". Agrupa todo lo que ocurre dentro.</span></li>
+                    <li><i class="fas fa-check"></i> <span><span class="highlight-text">Get-CimInstance</span>: Interroga a Windows (CPU, RAM).</span></li>
+                    <li><i class="fas fa-arrow-right"></i> <span><span class="highlight-text">| Out-File</span>: Envía la bolsa cerrada al archivo de texto.</span></li>
+                </ul>
+            </div>
+
+            <!-- BLOQUE 3 -->
+            <div class="step-card">
+                <div class="step-header">
+                    <i class="fas fa-rocket step-icon"></i>
+                    <div class="step-title">3. El Resultado</div>
+                </div>
+                <div class="mini-code">notepad.exe INFORME_JEFE.txt</div>
+                <ul class="step-list">
+                    <li><i class="fas fa-check"></i> <span><span class="highlight-text">notepad.exe</span>: Usamos .exe para evitar conflictos con Git.</span></li>
+                    <li><i class="fas fa-flag-checkered"></i> <span><strong>Resultado:</strong> El informe se abre automáticamente al terminar.</span></li>
+                </ul>
+            </div>
+
         </div>
     </section>
 
@@ -457,7 +616,7 @@
         <h2>¿Y para los 100 PCs?</h2>
         <p style="color: var(--text-muted); margin-bottom: 2rem;">No tienes que levantarte de la silla. Despliega el poder de Remote Management.</p>
         <div class="command-block">
-            Invoke-Command -ComputerName (Get-Content lista_pcs.txt) -FilePath "Script.ps1"
+            Invoke-Command -ComputerName (Get-Content lista_pcs.txt) -FilePath "Auditor_Hardware.ps1"
         </div>
     </section>
 
@@ -489,32 +648,38 @@
             </div>
         </div>
         <div class="copyright">
-            <p>&copy; 2024 ASIR Automation Academy. Todos los derechos reservados. Code is Law.</p>
+            <p>&copy; <span id="year"></span> ASIR Automation Academy. Derechos reservados Joscanoav. Code is Law.</p>
         </div>
     </footer>
 
     <!-- SCRIPT FUNCIONALIDAD -->
     <script>
+        // Auto-date: Pone el año actual automáticamente
+        document.getElementById('year').textContent = new Date().getFullYear();
+
         function copyCode() {
             // El texto crudo para copiar (sin tags HTML)
-            const rawCode = `# 1. Seguridad: Mover al escritorio
+            const rawCode = `# 0. Permisos (Vital si te sale error rojo)
+Set-ExecutionPolicy RemoteSigned -Scope Process
+
+# 1. Seguridad: Mover al escritorio
 cd $HOME\\Desktop
 
 # 2. Técnica del Sándwich (Agrupar datos)
 $(
-    Write-Host "--- CPU ---"
+    "--- CPU ---" 
     Get-CimInstance Win32_Processor | Select-Object Name, NumberOfCores
 
-    Write-Host "--- RAM ---"
+    "--- RAM ---"
     Get-CimInstance Win32_PhysicalMemory | Select-Object Capacity, Speed
 
-    Write-Host "--- DISCO ---"
+    "--- DISCO ---"
     Get-PhysicalDisk | Select-Object FriendlyName, MediaType, Size
 
 ) | Out-File "INFORME_JEFE.txt"
 
-# 3. Resultado
-notepad INFORME_JEFE.txt`;
+# 3. Resultado (¡PON .EXE PARA QUE NO SALGA EL RARO!)
+notepad.exe INFORME_JEFE.txt`;
 
             navigator.clipboard.writeText(rawCode).then(() => {
                 const btn = document.querySelector('.copy-btn');
