@@ -196,6 +196,31 @@
             animation: pulse-glow 2s infinite;
         }
 
+        /* Nuevos estilos para la comparativa */
+        .stats-list {
+            text-align: left;
+            margin: 1.5rem auto;
+            max-width: 250px;
+            list-style: none;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .stats-list li {
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stats-list li i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .option-a .stats-list i { color: var(--accent-red); }
+        .option-b .stats-list i { color: var(--accent-green); }
+
         @keyframes pulse-glow {
             0% { box-shadow: 0 0 5px rgba(0, 255, 0, 0.4); }
             50% { box-shadow: 0 0 25px rgba(0, 255, 0, 0.8); }
@@ -270,9 +295,24 @@
         .command-block .copy-btn { position: absolute; right: 10px; top: 10px; background: rgba(255,255,255,0.05); }
 
         /* --- FOOTER --- */
-        footer { background: var(--bg-dark); border-top: 1px solid var(--border); padding: 4rem 10% 2rem; }
-        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-bottom: 2rem; }
-        .copyright { text-align: center; color: var(--text-muted); font-size: 0.85rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+        footer { background: var(--bg-dark); border-top: 1px solid var(--border); padding: 5rem 10% 2rem; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 3rem; margin-bottom: 3rem; }
+        
+        .footer-brand .logo { font-size: 1.5rem; margin-bottom: 1rem; display: block; }
+        .footer-brand p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem; line-height: 1.6; }
+        .social-links { display: flex; gap: 1rem; }
+        .social-links a { display: inline-flex; justify-content: center; align-items: center; width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.05); color: var(--text-main); transition: 0.3s; font-size: 1.1rem; }
+        .social-links a:hover { background: var(--accent-cyan); color: var(--bg-dark); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(57, 172, 231, 0.3); }
+        
+        .footer-col h4 { color: #fff; margin-bottom: 1.5rem; font-size: 1.1rem; position: relative; padding-bottom: 0.8rem; }
+        .footer-col h4::after { content: ''; position: absolute; left: 0; bottom: 0; width: 30px; height: 2px; background: var(--accent-cyan); }
+        .footer-col ul li { margin-bottom: 0.8rem; }
+        .footer-col ul li a { color: var(--text-muted); font-size: 0.95rem; display: flex; align-items: center; gap: 8px; transition: 0.3s; }
+        .footer-col ul li a i { font-size: 0.8rem; color: var(--accent-cyan); transition: 0.3s; }
+        .footer-col ul li a:hover { color: #fff; transform: translateX(5px); }
+        .footer-col ul li a:hover i { transform: translateX(3px); }
+
+        .copyright { text-align: center; color: var(--text-muted); font-size: 0.9rem; padding-top: 2rem; border-top: 1px solid var(--border); }
 
         @media (max-width: 768px) { .hero h1 { font-size: 2.5rem; } .nav-links { display: none; } }
     </style>
@@ -308,7 +348,12 @@
         <div class="option-card option-a">
             <div class="icon-box"><i class="fas fa-usb"></i></div>
             <div class="option-title">Opción A: El Becario</div>
-            <p style="color: var(--text-muted);">Va PC por PC con un pendrive. Tarda 1 semana y comete errores.</p>
+            <ul class="stats-list">
+                <li><i class="fas fa-shoe-prints"></i> <strong>Método:</strong> Zapatillas y Pendrive</li>
+                <li><i class="fas fa-hourglass-half"></i> <strong>Tiempo:</strong> 1 Semana (40h)</li>
+                <li><i class="fas fa-times-circle"></i> <strong>Precisión:</strong> Baja (Errores)</li>
+                <li><i class="fas fa-tired"></i> <strong>Estado:</strong> Estrés máximo</li>
+            </ul>
             <div class="result res-fired">DESPEDIDO</div>
         </div>
         
@@ -316,7 +361,12 @@
         <div class="option-card option-b">
             <div class="icon-box"><i class="fas fa-terminal"></i></div>
             <div class="option-title">Opción B: El Senior</div>
-            <p style="color: var(--text-muted);">Escribe un script maestro. Tarda 1 minuto y es perfecto.</p>
+            <ul class="stats-list">
+                <li><i class="fas fa-bolt"></i> <strong>Método:</strong> God Mode Scripting</li>
+                <li><i class="fas fa-stopwatch"></i> <strong>Tiempo:</strong> 12 Segundos</li>
+                <li><i class="fas fa-check-circle"></i> <strong>Precisión:</strong> 100% Exacto</li>
+                <li><i class="fas fa-mug-hot"></i> <strong>Estado:</strong> Tomando café</li>
+            </ul>
             <div class="result res-promoted">ASCENDIDO</div>
         </div>
     </section>
@@ -474,17 +524,42 @@
 
     <footer>
         <div class="footer-grid">
-            <div class="footer-col">
-                <h4>Recursos</h4>
-                <ul><li><a href="#">Git Repo</a></li><li><a href="#">Discord ASIR</a></li></ul>
+            <div class="footer-col footer-brand">
+                <div class="logo">ASIR / <span>AUTOMATION</span></div>
+                <p>Domina la consola, recupera tu tiempo libre y conviértete en el SysAdmin que todas las empresas están buscando.</p>
+                <div class="social-links">
+                    <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" title="Twitter / X"><i class="fab fa-twitter"></i></a>
+                    <a href="#" title="Discord Server"><i class="fab fa-discord"></i></a>
+                </div>
             </div>
             <div class="footer-col">
-                <h4>Legal</h4>
-                <ul><li><a href="#">Privacidad</a></li><li><a href="#">Términos</a></li></ul>
+                <h4>Masterclass</h4>
+                <ul>
+                    <li><a href="#"><i class="fas fa-angle-right"></i> Temario del Curso</a></li>
+                    <li><a href="#"><i class="fas fa-angle-right"></i> Proyectos Reales</a></li>
+                    <li><a href="#"><i class="fas fa-angle-right"></i> Certificación ASIR</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Recursos</h4>
+                <ul>
+                    <li><a href="#"><i class="fas fa-angle-right"></i> Repositorio Git</a></li>
+                    <li><a href="#"><i class="fas fa-angle-right"></i> Comunidad Discord</a></li>
+                    <li><a href="#"><i class="fas fa-angle-right"></i> Cheatsheet PDF</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contacto</h4>
+                <ul>
+                    <li><a href="#"><i class="fas fa-envelope" style="color: var(--text-muted);"></i> admin@joscanoav.com</a></li>
+                    <li><a href="#"><i class="fas fa-map-marker-alt" style="color: var(--text-muted);"></i> Madrid, España</a></li>
+                </ul>
             </div>
         </div>
         <div class="copyright">
-            &copy; <span id="year"></span> ASIR Automation Academy. Derechos reservados Joscanoav.
+            <p>&copy; <span id="year"></span> ASIR Automation Academy. Creado con <i class="fas fa-heart" style="color: var(--accent-red);"></i> por <strong>Joscanoav</strong>. Code is Law.</p>
         </div>
     </footer>
 
